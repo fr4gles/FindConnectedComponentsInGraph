@@ -3,8 +3,11 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- *
+ * Klasa reprezentująca graf
+ * zawiera reprezentacje tablicy next i head oraz tablicy odwiedzonych wierzchołków
+ * zawiera podstawowe, wymagane do poprawnego działania algorytmu, metody oraz logikę
  * @author Michal
+ * @date 22.03.2013
  */
 public class Graph 
 {
@@ -61,20 +64,36 @@ public class Graph
         }
     }
     
+    /**
+     * Pobranie tablicy next
+     * @return tablica next
+     */
     public List<Integer> getNextList()
     {
         return next;
     }
     
+    /**
+     * Pobranie tablicy head
+     * @return tablica head
+     */
     public List<Vertex> getHeadList()
     {
         return head;
     }
     
+    /**
+     * pobranie listy odwiedzonych
+     * @return tablica discovered
+     */
     public List<Boolean> GetDiscoveredList()
     {
         return discovered;
     }
+    
+    /**
+     * Testowy wypis tablic ...
+     */
     public void PrintList()
     {
         for(int i=0;i<Main.GRAPH_SIZE;++i)
@@ -90,6 +109,13 @@ public class Graph
         }
     }
     
+    
+    /**
+     * Przeszukiwanie w głąb (ang. Depth-first search, w skrócie DFS) 
+     * – jeden z algorytmów przeszukiwania grafu. 
+     * Przeszukiwanie w głąb polega na badaniu wszystkich krawędzi wychodzących z podanego wierzchołka. Po zbadaniu wszystkich krawędzi wychodzących z danego wierzchołka algorytm powraca do wierzchołka, z którego dany wierzchołek został odwiedzony.
+     * @param v_index indeks wierzchołka do odwiedzenia, od którego zaczynamy DFS
+     */
     public void DFS(int v_index)
     {
         Stack<Integer> stack = new Stack<>();   // tworzony jest stos przechowyjący indeksy wierzchołka ...
@@ -117,48 +143,58 @@ public class Graph
     }
 }
 
+/**
+ * Klasa reprezentująca wierzcholek
+ * @author Michal
+ * @date 22.03.2013
+ */
 final class Vertex
 {
-    private Integer v;
+    private Integer index;          // indeks wierzcholka
 
-    public Vertex(Integer tmp)
+    public Vertex(Integer tmp)      // przy stworzeniu obiektu ...
     {
         Set(tmp);
     }
 
-    public void Set(Integer tmp)
+    public void Set(Integer tmp)    // ... ustaw wartosc indeksu
     {
-        v = tmp;
+        index = tmp;
     }
 
-    public Integer Get()
+    public Integer Get()            // pobierz indeks
     {
-        return v;
+        return index;
     }
 }
 
+/**
+ * Klasa reprezentująca krawędź
+ * @author Michal
+ */
 final class Edge
 {
-    private Vertex start, end;
+    private Vertex  start,          // wierzchołek startowy
+                    end;            // wierzchołek końcowy
 
-    public Edge(Vertex s, Vertex e)
+    public Edge(Vertex s, Vertex e) // konstruktor ... 
     {
         start = s;
         end = e;
     }
 
-    public void Set(Vertex s, Vertex e)
+    public void Set(Vertex s, Vertex e) // ... ustaw zadane wartosci
     {
         start = s;
         end = e;
     }
 
-    public Vertex GetStartVertex()
+    public Vertex GetStartVertex()      // pobierz poczatkowy wierzcholek krawedzi
     {
         return start;
     }
 
-    public Vertex GetEndVertex()
+    public Vertex GetEndVertex()        // pobierz koncowy wierzcholek krawedzi
     {
         return end;
     }
