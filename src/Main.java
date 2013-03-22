@@ -5,8 +5,10 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- *
+ * Główna klasa programu
+ * Odpowiada za wykorzystanie logoki zawartej w Klasie Vertex do znalezienia slabych skladowych spojnych
  * @author Michal
+ * @date 22.03.2013
  */
 public class Main 
 {
@@ -15,6 +17,12 @@ public class Main
     
     public static void main(String[] args) 
     {
+        if(args.length < 2) // jesli zla ilosc argumentow wejsciowych to poinforuj o tym uzytkownika
+        {
+            System.err.println("BLAD, zla ilosc argumentow wejsciowych. Podaj <nazwa_pliku> <wielkosc_grafu>");
+            System.exit(1);
+        }
+        
         try
         {
             Main.GRAPH_SIZE = Integer.parseInt(args[1])+1; // czytanie z wejscia ilośći wierzchołków
