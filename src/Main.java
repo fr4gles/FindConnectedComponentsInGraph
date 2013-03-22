@@ -1,6 +1,7 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -10,53 +11,68 @@ import java.util.Scanner;
 public class Main 
 {
     public static int GRAPH_SIZE;
+    public static Boolean TEST = Boolean.FALSE;
+    
     public static void main(String[] args) 
     {
         try
         {
-            Main.GRAPH_SIZE = Integer.parseInt(args[1])+1;
+            Main.GRAPH_SIZE = Integer.parseInt(args[1])+1; // czytanie z wejscia ilośći wierzchołków
         }
         catch(NumberFormatException e)
         {
-            System.err.println("BŁĄD ZŁY ROZMIAR"+e.getMessage());
+            System.err.println("BLAD ZLY ROZMIAR"+e.getMessage());
         }
         
-        Graph g = new Graph();
+        Graph g = new Graph(); // nowy obiekt grafu
         
-        File file = new File(args[0]);
+        
+        File file = new File(args[0]); // użycie pliku wejsciowego do odczytu danych
         try 
         {
-            Scanner sc = new Scanner(file).useDelimiter("\\D+");
+            Scanner sc = new Scanner(file).useDelimiter("\\D+"); // pobieranie tylko liczb ...
             while(sc.hasNext())
             {
                 Integer a = sc.nextInt();
                 Integer b = sc.nextInt();
                 
-                g.addEdge(a, b);
-                g.addEdge(b, a);
+                if( (a >= Main.GRAPH_SIZE) || (b >= Main.GRAPH_SIZE) ) // pobieraj tylko te wierzchołki które mieszczą się w ilości wierzchołków... tak na wszelki wypadek
+                    continue;
+                
+                // program liczy ilosc słabych! składowych spójnych
+                g.addEdge(new Edge(new Vertex(a), new Vertex(b)));  // dodanie krawędzi między wierzchołkami
+                g.addEdge(new Edge(new Vertex(b), new Vertex(a)));  
             }
         } 
         catch (FileNotFoundException ex) 
         {
-            System.err.println("BŁAD Z PARSOWANIEM PLIKU WEJSCIOWEGO"+ex.getMessage());
+            System.err.println("BLAD Z PARSOWANIEM PLIKU WEJSCIOWEGO"+ex.getMessage());
+        }
+        catch(NoSuchElementException ex)
+        {
+            if(Main.TEST)
+                System.err.println("BLAD ZLY FORMAT KRAWEDZI"+ex.getMessage());
         }
         
-        System.out.println("Ilość Vertex'ów: "+(Main.GRAPH_SIZE-1));
-        //g.PrintList();
-        
+        if(Main.TEST)
+        {
+            System.out.println("Ilość Vertex'ów: "+(Main.GRAPH_SIZE-1));
+            g.PrintList();
+        }
         
         int ilosc_skladowych_spojnych = 0;
-        for(int i=1;i<Main.GRAPH_SIZE;++i)
+        for(int i=1;i<Main.GRAPH_SIZE;++i)      // dla każdego wierzchołka... zaczynając od 1 (wierzchołek 0 jest ignorowany -> aby utrzymać zgodność z wymaganiami)
         {
-            if(!g.GetDiscoveredList().get(i))
+            if(!g.GetDiscoveredList().get(i))   //jeśli wierzchołek nie został odwiedzony to ...
             {
-                g.DFS(i);
-                //System.out.println(".");
-                ilosc_skladowych_spojnych++;
+                g.DFS(i);                       // rozpocznij procedurę DFS
+                ilosc_skladowych_spojnych++;    // zwiększ ilość składowych spójnych
+                
+                if(Main.TEST)
+                    System.out.println("");
             }
-        }
+        }                                       // koniec ;)
         
-        System.out.println("Składowych spójnych : "+ilosc_skladowych_spojnych);
-        
+        System.out.println("Skladowych spojnych : "+ilosc_skladowych_spojnych); 
     }    
 }
