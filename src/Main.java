@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
@@ -6,7 +5,7 @@ import java.util.Scanner;
 
 /**
  * Główna klasa programu
- * Odpowiada za wykorzystanie logoki zawartej w Klasie Vertex do znalezienia slabych skladowych spojnych
+ * Odpowiada za wykorzystanie logiki zawartej w Klasie Graph do znalezienia slabych skladowych spojnych
  * @author Michal
  * @date 22.03.2013
  */

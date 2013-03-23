@@ -152,14 +152,14 @@ final class Vertex
 {
     private Integer index;          // indeks wierzcholka
 
-    public Vertex(Integer tmp)      // przy stworzeniu obiektu ...
+    public Vertex(Integer newIndex)      // przy stworzeniu obiektu ...
     {
-        Set(tmp);
+        Set(newIndex);
     }
 
-    public void Set(Integer tmp)    // ... ustaw wartosc indeksu
+    public void Set(Integer newIndex)    // ... ustaw wartosc indeksu
     {
-        index = tmp;
+        index = newIndex;
     }
 
     public Integer Get()            // pobierz indeks
